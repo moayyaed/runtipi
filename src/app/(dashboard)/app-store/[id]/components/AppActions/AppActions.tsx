@@ -5,8 +5,8 @@ import type { AppStatus } from '@/server/db/schema';
 
 import { useTranslations } from 'next-intl';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/DropdownMenu';
-import { Button } from '../../../../components/ui/Button';
-import { AppWithInfo } from '../../../../core/types';
+import { AppWithInfo } from '@/client/core/types';
+import { Button } from '@/components/ui/Button';
 
 interface IProps {
   app: AppWithInfo;
@@ -52,6 +52,8 @@ export const AppActions: React.FC<IProps> = ({ app, status, localDomain, onInsta
   const t = useTranslations('apps.app-details');
   const hasSettings = Object.keys(info.form_fields).length > 0 || info.exposable;
 
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+
   const buttons: JSX.Element[] = [];
 
   const StartButton = <ActionButton key="start" IconComponent={IconPlayerPlay} onClick={onStart} title={t('actions.start')} color="success" />;
@@ -87,7 +89,7 @@ export const AppActions: React.FC<IProps> = ({ app, status, localDomain, onInsta
           {!app.info.force_expose && (
             <DropdownMenuItem onClick={() => onOpen('local')}>
               <IconLockOff className="text-muted me-2" size={16} />
-              {window?.location?.hostname}:{app.info.port}
+              {hostname}:{app.info.port}
             </DropdownMenuItem>
           )}
         </DropdownMenuGroup>

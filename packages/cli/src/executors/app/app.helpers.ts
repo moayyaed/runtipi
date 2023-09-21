@@ -56,6 +56,9 @@ export const generateEnvFile = async (appId: string, config: Record<string, unkn
   envMap.set('APP_ID', appId);
   envMap.set('ROOT_FOLDER_HOST', rootFolderHost);
   envMap.set('APP_DATA_DIR', path.join(storagePath, 'app-data', appId));
+  if (parsedConfig.data.https) {
+    envMap.set('APP_PROTOCOL', 'https');
+  }
 
   const existingEnvMap = await getAppEnvMap(appId);
 
@@ -91,6 +94,7 @@ export const generateEnvFile = async (appId: string, config: Record<string, unkn
       }
     }),
   );
+
 
   if (config.exposed && config.domain && typeof config.domain === 'string') {
     envMap.set('APP_EXPOSED', 'true');

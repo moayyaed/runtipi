@@ -26,7 +26,12 @@ export const PageTitle = () => {
     );
   };
 
-  const title = t(`header.${pathArray[pathArray.length - 1]}` as MessageKey);
+  const customTitle = '';
+  if (pathArray.length > 1 && (pathArray[0] === 'app-store' || pathArray[0] === 'apps')) {
+    console.log('should render different title yes', pathArray);
+  }
+
+  const title = customTitle || t(`header.${pathArray[pathArray.length - 1]}` as MessageKey);
 
   return (
     <>
